@@ -8,12 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * Models a piece of Playground equipment
+ *
+ */
 @Entity
 public class Equipment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
+	
+	// @ToDo: refactor to class or enum
 	private String type;
 	
     @ManyToOne(cascade = CascadeType.ALL)
