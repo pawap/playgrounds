@@ -1,3 +1,6 @@
+# local config
+/src/main/resources/application.properties
+
 # Java related
 target/**
 *.jar

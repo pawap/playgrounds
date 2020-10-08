@@ -1,0 +1,10 @@
+# Example config for local eclipse development setup.
+
+spring.datasource.url=jdbc:mysql://localhost:3306/DatabaseName?serverTimezone=Europe/Amsterdam&useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=root
+
+# optional
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.MySQL57Dialect
+spring.jpa.show-sql=true
