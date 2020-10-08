@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--/*/ <th:block th:include="fragments/general.html :: headerfiles">
+        </th:block> /*/-->
+<title>Playgrounds</title>
+</head>
+<body>
+	<div th:replace="fragments/general.html :: headernav"></div>
+	<div class="container">
+		<div class="row">
+			<h3 th:text="'Edit ' + ${playground.name}"></h3>
+			<span class="ml-auto"><a
+				th:href="@{/playground/show/{id}(id=${playground.id})}"
+				class="btn btn-primary my-2">Abort</a> </span>
+		</div>
+		<!-- 	Form 	 -->
+		<div class="row">
+			<form action="#"
+				th:action="@{/playground/update/{id}(id=${playground.id})}"
+				th:object="${playground}" method="post">
+				<div class="form-group">
+					<label for="name">Name</label> <input class="form-control"
+						type="text" th:field="*{name}" id="name" placeholder="Name">
+					<div class="alert alert-danger" role="alert"
+						th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				</div>
+				<div class="form-group">
+					<label for="description">Description</label> <input
+						class="form-control" type="text" th:field="*{description}"
+						id="email" placeholder="Description">
+					<div class="alert alert-danger" role="alert"
+						th:if="${#fields.hasErrors('description')}"
+						th:errors="*{description}"></div>
+				</div>
+<!-- 				<div class="form-group"> -->
+<!-- 					<input class="form-control"  th:each="equipment, status: *{equipments}" -->
+<!-- 						type="text" th:field="*{equipments[__${status.index}__].type}" id="equipment-type-{equipment.id}" placeholder="Equipment-{equipment.id}"> -->
+<!-- 				</div> -->
+				<div class="form-group">
+					<input type="hidden" id="longitude" th:field="*{longitude}">
+					<input type="hidden" id="latitude" th:field="*{latitude}">
+					<input class="btn btn-primary" type="submit"
+						value="Save Playground">
+				</div>
+				<div class="alert alert-danger" role="alert"
+					th:if="${#fields.hasErrors('longitude')} OR ${#fields.hasErrors('latitude')}">Choose
+					a location!</div>
+			</form>
+		</div>
+
+		<!-- 	Map 	 -->
+		<div class="row">
+			<div id="map" class="map"></div>
+		</div>
+	</div>
+	<div th:replace="fragments/general.html :: footerfiles"></div>
+	<script type="text/javascript" th:src="@{/js/map.js}"></script>
+	<script th:inline="javascript">
+		toggleMode();
+		centerOnMarker();
+	</script>
+</body>
+</html>

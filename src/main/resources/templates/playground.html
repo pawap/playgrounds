@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--/*/ <th:block th:include="fragments/general.html :: headerfiles">
+        </th:block> /*/-->
+<title>Playgrounds</title>
+</head>
+<body>
+	<div th:replace="fragments/general.html :: headernav"></div>
+	<div class="container">
+		<input type="hidden" id="longitude" th:value="${playground.longitude}">
+		<input type="hidden" id="latitude" th:value="${playground.latitude}">
+		<div class="row">
+			<h3 th:text="${playground.name}"></h3>
+			<span class="ml-auto"><a
+				th:href="@{/playground/edit/{id}(id=${playground.id})}"
+				class="btn btn-primary my-2">Edit</a> <a
+				th:href="@{/playground/delete/{id}(id=${playground.id})}"
+				class="btn btn-primary my-2">Delete</a> </span>
+		</div>
+		<div class="row">
+			<p th:text="${playground.description}"></p>
+		</div>
+		<div class="row" th:if="${not #lists.isEmpty(playground.equipments)}">
+			<h5>Equiment:</h5>
+			<p th:each="equipment: ${playground.equipments}"
+				th:text="${equipment.type}"></p>
+		</div>
+		<!-- 	Map 	 -->
+		<div class="row">
+			<div id="map" class="map"></div>
+		</div>
+	</div>
+	<div th:replace="fragments/general.html :: footerfiles"></div>
+	<script type="text/javascript" th:src="@{/js/map.js}"></script>
+	<script th:inline="javascript">
+		toggleMode();
+		centerOnMarker();
+	</script>
+</body>
+</html>
