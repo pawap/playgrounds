@@ -1,16 +1,16 @@
 # Playgrounds
-#####Ein kleiner Prototyp zur Verwaltung von Spielplätzen
+##### Ein kleiner Prototyp zur Verwaltung von Spielplätzen
 
 Dieses Projekt wird mit Spring Boot, Thymeleaf und OpenLayers als Webanwendung mit interaktiver Karte umgesetzt.
 Styled by Bootstrap 4.
 
-#####hard-requirements
+##### hard-requirements
 
 - Spielplätze auf einer Karte anzeigen, anlegen, löschen & bearbeiten
 - Spielgeräte auf Spielplätzen anlegen, löschen & bearbeiten
 - docs, tests
 
-#####soft-requirements
+##### soft-requirements
 
 - Bilder zu Spielplätzen und Spielgeräten hinzufügen
 - CUA: Anlegen, löschen und bearbeiten nur für angemeldete User
@@ -19,7 +19,7 @@ Styled by Bootstrap 4.
 --------
 
 
-###setup (Eclipse)
+### setup (Eclipse)
 1. Datenbank einrichten (MySQL)
 
 2. Datenbankverbindung konfigurieren: 
