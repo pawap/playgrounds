@@ -1,7 +1,8 @@
 # Playgrounds
 #####Ein kleiner Prototyp zur Verwaltung von Spielplätzen
 
-Dieses Projekt wird mit Spring Boot, Thymeleaf und OpenLayers als Webanwendung mit interaktiver Karte umgesetzt. 
+Dieses Projekt wird mit Spring Boot, Thymeleaf und OpenLayers als Webanwendung mit interaktiver Karte umgesetzt.
+Styled by Bootstrap 4.
 
 #####hard-requirements
 
