@@ -54,20 +54,20 @@ public class WebController {
 	}
 
 	@PostMapping("/playground/update/{id}")
-	public String updateUser(@PathVariable("id") long id, @Valid Playground playground, 
-	  BindingResult result, Model model) {
+	public String updatePlayground(@PathVariable("id") long id, @Valid Playground playground, BindingResult result,
+			Model model) {
 		Playground playgroundExists = playgroundRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid playground Id:" + id));
 		if (result.hasErrors()) {
-	        return "update-playground";
-	    }
-	    playground.setId(id);
+			playground.setId(id);
+			return "update-playground";
+		}
 		playgroundRepository.save(playground);
 	    return "redirect:/index";
 	}
 	    
 	@GetMapping("/playground/delete/{id}")
-	public String deleteUser(@PathVariable("id") long id, Model model) {
+	public String deletePlayground(@PathVariable("id") long id, Model model) {
 		Playground playground = playgroundRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid playground Id:" + id));
 		playgroundRepository.delete(playground);
@@ -78,9 +78,11 @@ public class WebController {
 	public String addPlayground(@ModelAttribute("playground") @Valid Playground playground, BindingResult result,
 			RedirectAttributes attr) {
 		if (result.hasErrors()) {
+			attr.addFlashAttribute("displayForm", true);
+			// @TODO are those necessary?
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.playground", result);
 			attr.addFlashAttribute("playground", playground);
-			attr.addFlashAttribute("displayForm", true);
+			
 			return "redirect:/index";
 		}
 		playgroundRepository.save(playground);
