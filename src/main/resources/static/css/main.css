@@ -1,3 +1,63 @@
+#myCarousel .list-inline {
+    white-space:nowrap;
+    overflow-x:auto;
+}
+
+#myCarousel .carousel-indicators {
+    position: static;
+    left: initial;
+    width: initial;
+    margin-left: initial;
+}
+
+#myCarousel .carousel-indicators > li {
+    width: initial;
+    height: initial;
+    text-indent: initial;
+}
+
+#myCarousel .carousel-indicators > li.active img {
+    opacity: 0.7;
+}
+
+.modal-dialog {
+     height: 100%
+}
+
+.modal-content {
+     height: 80%
+} 
+
+.deleted-opacity {
+    opacity: 50%;
+}
+
+.bg-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.carousel-control-next {
+    height: 80%;
+    z-index: 3 !important;
+}
+
+.carousel-control-prev {
+    height: 80%;
+    z-index: 3 !important;
+}
+
+
+.bottom-right {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
 .ol-selectable {
     width: 40%;
     height: 60%;

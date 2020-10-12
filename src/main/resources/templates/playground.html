@@ -20,11 +20,10 @@
 		<div class="row">
 			<p th:text="${playground.description}"></p>
 		</div>
-		<div class="row" th:if="${not #lists.isEmpty(playground.equipments)}">
-			<h5>Equiment:</h5>
-			<p th:each="equipment: ${playground.equipments}"
-				th:text="${equipment.type}"></p>
-		</div>
+		<!-- Equipment-Carousel -->
+		<div
+			<div
+				th:replace="fragments/equipment-carousel :: equipment-carousel(editMode=false)"></div>
 		<!-- 	Map 	 -->
 		<div class="row">
 			<div id="map" class="map"></div>

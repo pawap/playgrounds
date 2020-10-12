@@ -7,57 +7,77 @@
 <body>
 	<div th:replace="fragments/general.html :: headernav"></div>
 	<div class="container">
-		<div class="row">
-			<h3 th:text="'Edit ' + ${playground.name}"></h3>
-			<span class="ml-auto"><a
-				th:href="@{/playground/show/{id}(id=${playground.id})}"
-				class="btn btn-primary my-2">Abort</a> </span>
-		</div>
-		<!-- 	Form 	 -->
-		<div class="row">
-			<form action="#"
-				th:action="@{/playground/update/{id}(id=${playground.id})}"
-				th:object="${playground}" method="post">
-				<div class="form-group">
-					<label for="name">Name</label> <input class="form-control"
-						type="text" th:field="*{name}" id="name" placeholder="Name">
-					<div class="alert alert-danger" role="alert"
-						th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-				</div>
-				<div class="form-group">
-					<label for="description">Description</label> <input
-						class="form-control" type="text" th:field="*{description}"
-						id="email" placeholder="Description">
-					<div class="alert alert-danger" role="alert"
-						th:if="${#fields.hasErrors('description')}"
-						th:errors="*{description}"></div>
-				</div>
-<!-- 				<div class="form-group"> -->
-<!-- 					<input class="form-control"  th:each="equipment, status: *{equipments}" -->
-<!-- 						type="text" th:field="*{equipments[__${status.index}__].type}" id="equipment-type-{equipment.id}" placeholder="Equipment-{equipment.id}"> -->
-<!-- 				</div> -->
-				<div class="form-group">
-					<input type="hidden" id="longitude" th:field="*{longitude}">
-					<input type="hidden" id="latitude" th:field="*{latitude}">
-					<input class="btn btn-primary" type="submit"
-						value="Save Playground">
-				</div>
-				<div class="alert alert-danger" role="alert"
-					th:if="${#fields.hasErrors('longitude')} OR ${#fields.hasErrors('latitude')}">Choose
-					a location!</div>
-			</form>
-		</div>
 
-		<!-- 	Map 	 -->
+		<!-- 	Form 	 -->
+
+		<form action="#" th:action="@{/playground/update/{id}(id=${playground.id})}" th:object="${playground}"
+			method="post" id="updateForm">
+			<div class="row">
+				<h3 class="my-auto" th:text="'Edit Playground &quot;' + ${playground.name} + '&quot;' "></h3>
+				<span class="ml-auto">
+					<input class="btn btn-primary" type="submit" value="Save">
+					<a th:href="@{/playground/delete/{id}(id=${playground.id})}" class="btn btn-danger my-2">Delete</a>
+					<a th:href="@{/playground/show/{id}(id=${playground.id})}" class="btn btn-secondary my-2">Cancel</a>
+				</span>
+			</div>
+
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Name">
+				<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+			</div>
+			<div class="form-group">
+				<label for="description">Description</label>
+				<textarea rows="3" class="form-control" type="text"
+					th:field="*{description}" id="email" placeholder="Description"></textarea>
+				<div class="alert alert-danger" role="alert"
+					th:if="${#fields.hasErrors('description')}"
+					th:errors="*{description}"></div>
+			</div>
+			<div class="form-group">
+				<input type="hidden" id="longitude" th:field="*{longitude}">
+				<input type="hidden" id="latitude" th:field="*{latitude}">
+			</div>
+			<div class="alert alert-danger" role="alert"
+				th:if="${#fields.hasErrors('longitude')} OR ${#fields.hasErrors('latitude')}">Choose
+				a location!</div>
+
+
+		<!-- Equipment-Carousel -->
+			<div
+				th:replace="fragments/equipment-carousel :: equipment-carousel(editMode=true)"></div>
+		</form>
+			<!-- 	Map 	 -->
+		<div class="row">
+			<h4 class="my-2" th:inline="text" >
+   				Set location for Playground "[[${playground.name}]]"
+				<small class="text-muted">Click on the map to choose
+					position</small>
+			</h4>
+		</div>
 		<div class="row">
 			<div id="map" class="map"></div>
 		</div>
 	</div>
+	<!-- Add-Equipment-Modal -->
 	<div th:replace="fragments/general.html :: footerfiles"></div>
 	<script type="text/javascript" th:src="@{/js/map.js}"></script>
 	<script th:inline="javascript">
 		pm.setMode(PlaygroundMap.MODES.edit);
 		pm.centerOnMarker();
+		$('#edit-equipment').attr('data-target', '#equipment-modal-0');
+		$('#delete-equipment').attr('value', '0');
+		$('#myCarousel').on('slide.bs.carousel', function (event) {
+			$('#edit-equipment').attr('data-target', '#equipment-modal-' + event.to)
+			$('#delete-equipment').attr('value', event.to);
+		});
 	</script>
+	<script th:if="${newEquipment}" th:inline="javascript">
+		$('.modal').last().modal('toggle');
+	</script>
+	<!-- 	Open Form if errors occured during Adding, Urgh! 	 -->
+	<!-- <script th:if="${displayForm}" th:inline="javascript">
+		$('#newEquipmentModal').modal('toggle')
+	</script> -->
 </body>
 </html>
