@@ -10,12 +10,11 @@
 		<input type="hidden" id="longitude" th:value="${playground.longitude}">
 		<input type="hidden" id="latitude" th:value="${playground.latitude}">
 		<div class="row">
-			<h3 th:text="${playground.name}"></h3>
-			<span class="ml-auto"><a
-				th:href="@{/playground/edit/{id}(id=${playground.id})}"
-				class="btn btn-primary my-2">Edit</a> <a
-				th:href="@{/playground/delete/{id}(id=${playground.id})}"
-				class="btn btn-primary my-2">Delete</a> </span>
+			<h3 class="my-auto" th:text="${playground.name}"></h3>
+			<span class="ml-auto">
+				<a th:href="@{/playground/edit/{id}(id=${playground.id})}"
+					class="btn btn-primary my-2">Edit</a>
+			</span>
 		</div>
 		<div class="row">
 			<p th:text="${playground.description}"></p>
