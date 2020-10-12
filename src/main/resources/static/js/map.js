@@ -5,56 +5,14 @@ class PlaygroundMap {
 	static MODES = Object.freeze({ add: 1, viewOne: 2, browse: 3, edit: 4 });
 
 	constructor() {
-		this.map = new ol.Map({
-			target: 'map',
-			layers: [
-				new ol.layer.Tile({
-					source: new ol.source.OSM()
-				})
-			],
-			view: new ol.View({
-				//center on Hamburg, Germany!
-				center: ol.proj.fromLonLat([9.993682, 53.551086]),
-				zoom: 10
-			})
-		});
+		this.initMap();
+		this.initListeners();
+		// default is browsing mode
+		this.currentMode = PlaygroundMap.MODES.browse;
 
-		this.playgrounds = [];
+	}
 
-		// Setup MarkerStyling for new playground location
-		var newStyle = new ol.style.Style({
-			image: new ol.style.Circle({
-				radius: 7,
-				fill: new ol.style.Fill({ color: [200, 20, 100] }),
-				stroke: new ol.style.Stroke({
-					color: [255, 55, 250], width: 1
-				})
-			})
-		})
-
-		// initialize source for new playground marker
-		this.newSource = new ol.source.Vector({
-			features: []
-		});
-
-		// Setup & add Overlay for Popup
-		this.overlay = new ol.Overlay({
-			element: null,
-			autoPan: true,
-			autoPanAnimation: {
-				duration: 250
-			}
-		});
-
-		this.map.addOverlay(this.overlay);
-
-		// setup and add layer for new playground marker
-		var newLayer = new ol.layer.Vector({
-			source: this.newSource,
-			style: newStyle
-		});
-		this.map.addLayer(newLayer);
-
+	initListeners() {
 		var self = this;
 		// manages click event for brwosing Mode, ie. browsing existing playgrounds
 		var browseMarkers = function(event) {
@@ -99,10 +57,59 @@ class PlaygroundMap {
 			}
 		}
 
-		this.map.addEventListener('singleclick', singleClick);
+		this.map.addEventListener('singleclick', singleClick);		
+	}
+	
+	initMap() {
+		this.map = new ol.Map({
+			target: 'map',
+			layers: [
+				new ol.layer.Tile({
+					source: new ol.source.OSM()
+				})
+			],
+			view: new ol.View({
+				//center on Hamburg, Germany!
+				center: ol.proj.fromLonLat([9.993682, 53.551086]),
+				zoom: 10
+			})
+		});
 
-		// default is browsing mode
-		this.currentMode = PlaygroundMap.MODES.browse;
+		this.playgrounds = [];
+
+		// Setup MarkerStyling for new playground location
+		var newStyle = new ol.style.Style({
+			image: new ol.style.Circle({
+				radius: 7,
+				fill: new ol.style.Fill({ color: [200, 20, 100] }),
+				stroke: new ol.style.Stroke({
+					color: [255, 55, 250], width: 1
+				})
+			})
+		})
+
+		// initialize source for new playground marker
+		this.newSource = new ol.source.Vector({
+			features: []
+		});
+
+		// setup and add layer for new playground marker
+		var newLayer = new ol.layer.Vector({
+			source: this.newSource,
+			style: newStyle
+		});
+		this.map.addLayer(newLayer);
+
+		// Setup & add Overlay for Popup
+		this.overlay = new ol.Overlay({
+			element: null,
+			autoPan: true,
+			autoPanAnimation: {
+				duration: 250
+			}
+		});
+
+		this.map.addOverlay(this.overlay);
 
 	}
 
@@ -183,12 +190,12 @@ class PlaygroundMap {
 
 		// Setup & add Overlay for Popup
 		this.overlay.setElement(container);
-		
+
 		var self = this;
 		// Closing functionality for popup
 		this.popup.closer.onclick = function() {
 			self.overlay.setPosition(undefined);
-			$(this).blur();
+			this.blur();
 			return false;
 		};
 	}
