@@ -86,7 +86,7 @@ public class WebController {
 			return "update-playground";
 		}
 		playgroundRepository.save(playground);
-	    return "redirect:/index";
+		return "redirect:/playground/show/" + id;
 	}
 	    
 	@GetMapping("/playground/delete/{id}")
@@ -109,6 +109,6 @@ public class WebController {
 			return "redirect:/index";
 		}
 		playgroundRepository.save(playground);
-		return "redirect:/index";
+		return "redirect:/playground/edit/" + playground.getId();
 	}
 }
