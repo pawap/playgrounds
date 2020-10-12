@@ -2,6 +2,7 @@ package playgrounds.controller;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import playgrounds.domain.model.Equipment;
 import playgrounds.domain.model.Playground;
 import playgrounds.domain.repository.PlaygroundRepository;
 
@@ -38,7 +40,28 @@ public class WebController {
 		return "index";
 	}
 
-	@GetMapping(value = "/playground/show/{id}")
+	@RequestMapping(value="/playground/update/{id}", params={"refresh"})
+	public String refresh(final Playground playground, final BindingResult bindingResult) {
+	    return "update-playground";
+	}	
+	
+	@RequestMapping(value="/playground/update/{id}", params={"addEquipment"})
+	public String addEquipment(final Playground playground, final BindingResult bindingResult, Model model) {
+		model.addAttribute("newEquipment", true);
+		playground.getEquipments().add(new Equipment());
+	    return "update-playground";
+	}
+
+	@RequestMapping(value="/playground/update/{id}", params={"deleteEquipment"})
+	public String removeEquipment(
+	        final Playground playground, final BindingResult bindingResult, 
+	        final HttpServletRequest req) {
+	    final Integer equipmentId = Integer.valueOf(req.getParameter("deleteEquipment"));
+	    playground.getEquipments().remove(equipmentId.intValue());
+	    return "update-playground";
+	}
+	
+	@GetMapping("/playground/show/{id}")
 	public String showPlayground(@PathVariable("id") long id, Model model) {
 		Optional<Playground> playground = playgroundRepository.findById(id);
 		model.addAttribute("playground", playground.get());
