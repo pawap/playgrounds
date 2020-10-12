@@ -1,15 +1,14 @@
 package playgrounds.domain.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -29,8 +28,8 @@ public class Playground {
 	@Column(precision = 13, scale = 11)
 	private BigDecimal latitude;
 
-	@OneToMany(mappedBy = "playground", cascade = { CascadeType.ALL })
-	private List<Equipment> equipments;
+	@ElementCollection
+	private List<Equipment> equipments = new ArrayList<>();
 
 	public String getName() {
 		return name;
@@ -71,7 +70,7 @@ public class Playground {
 	public void setEquipments(List<Equipment> equipments) {
 		this.equipments = equipments;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -82,8 +81,8 @@ public class Playground {
 
 	@Override
 	public String toString() {
-		return String.format("Playground(%s,%s)[id=%d, type='%s', #equipment=%s]", latitude, longitude, id, name,
-				equipments.size());
+		return String.format("Playground(%s,%s)[id=%d, type='%s', equipment=%s]", latitude, longitude, id, name,
+				equipments);
 	}
 
 }
