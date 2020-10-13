@@ -8,6 +8,9 @@ target/**
 *.ear
 *.class
 
+#node.js
+Build/node_modules/**
+
 # eclipse specific
 *.pydevproject
 .project
