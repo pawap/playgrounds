@@ -13,14 +13,14 @@ class PlaygroundMap {
 	}
 
 	initListeners() {
-		var self = this;
+		let self = this;
 		// manages click event for brwosing Mode, ie. browsing existing playgrounds
-		var browseMarkers = function(event) {
+		let browseMarkers = function (event) {
 			if (self.map.hasFeatureAtPixel(event.pixel) === true) {
-				var coordinate = event.coordinate;
-				var feature = self.map.getFeaturesAtPixel(event.pixel)[0];
-				var id = feature.getId();
-				var playground = self.playgrounds.find(element => element.id == id);
+				const coordinate = event.coordinate;
+				const feature = self.map.getFeaturesAtPixel(event.pixel)[0];
+				const id = feature.getId();
+				const playground = self.playgrounds.find(element => element.id == id);
 				self.popup.title.innerHTML = playground.name;
 				self.popup.text.innerHTML = playground.description;
 				self.popup.link.href = '/playground/show/' + id;
@@ -32,19 +32,19 @@ class PlaygroundMap {
 		};
 
 		// manages click event for adding/edit Mode
-		var addMarker = function(event) {
+		let addMarker = function (event) {
 			let newFeature = new ol.Feature({
 				geometry: new ol.geom.Point(event.coordinate),
 			});
 			self.newSource.clear();
-			var longLat = ol.proj.toLonLat(event.coordinate);
+			const longLat = ol.proj.toLonLat(event.coordinate);
 			document.getElementById('longitude').value = longLat[0];
 			document.getElementById('latitude').value = longLat[1];
 			self.newSource.addFeature(newFeature);
 		};
 
 		// callback for single click
-		var singleClick = function(event) {
+		let singleClick = function (event) {
 			switch (self.currentMode) {
 				case PlaygroundMap.MODES.edit:
 				case PlaygroundMap.MODES.add:
@@ -55,7 +55,7 @@ class PlaygroundMap {
 					break;
 				case PlaygroundMap.MODES.viewOne:
 			}
-		}
+		};
 
 		this.map.addEventListener('singleclick', singleClick);		
 	}
@@ -78,15 +78,15 @@ class PlaygroundMap {
 		this.playgrounds = [];
 
 		// Setup MarkerStyling for new playground location
-		var newStyle = new ol.style.Style({
+		const newStyle = new ol.style.Style({
 			image: new ol.style.Circle({
 				radius: 7,
-				fill: new ol.style.Fill({ color: [200, 20, 100] }),
+				fill: new ol.style.Fill({color: [200, 20, 100]}),
 				stroke: new ol.style.Stroke({
 					color: [255, 55, 250], width: 1
 				})
 			})
-		})
+		});
 
 		// initialize source for new playground marker
 		this.newSource = new ol.source.Vector({
@@ -94,7 +94,7 @@ class PlaygroundMap {
 		});
 
 		// setup and add layer for new playground marker
-		var newLayer = new ol.layer.Vector({
+		const newLayer = new ol.layer.Vector({
 			source: this.newSource,
 			style: newStyle
 		});
@@ -123,9 +123,9 @@ class PlaygroundMap {
 			case PlaygroundMap.MODES.edit:
 			case PlaygroundMap.MODES.viewOne:
 				// get longLat from hidden inputs
-				var lat = document.getElementById('latitude').value;
-				var long = document.getElementById('longitude').value;
-				var feature = new ol.Feature({
+				const lat = document.getElementById('latitude').value;
+				const long = document.getElementById('longitude').value;
+				const feature = new ol.Feature({
 					geometry: new ol.geom.Point(ol.proj.fromLonLat([long, lat])),
 				});
 				this.newSource.addFeature(feature)
@@ -140,8 +140,8 @@ class PlaygroundMap {
 	}
 
 	centerOnMarker() {
-		var lat = document.getElementById('latitude').value;
-		var long = document.getElementById('longitude').value;
+		const lat = document.getElementById('latitude').value;
+		const long = document.getElementById('longitude').value;
 		this.map.getView().setCenter(ol.proj.fromLonLat([long, lat]));
 	}
 
@@ -149,7 +149,7 @@ class PlaygroundMap {
 	// see index.html. @ToDo: Refactor. Urgh!
 	initPlaygrounds(playgrounds) {
 		this.playgrounds = playgrounds;
-		var features = [];
+		const features = [];
 		playgrounds.forEach(
 			playground => {
 				let newFeature = new ol.Feature({
@@ -160,17 +160,17 @@ class PlaygroundMap {
 			}
 		);
 		// Setup MarkerStyling for existing playgrounds
-		var markerStyle = new ol.style.Style({
+		const markerStyle = new ol.style.Style({
 			image: new ol.style.Circle({
 				radius: 7,
-				fill: new ol.style.Fill({ color: [20, 20, 100] }),
+				fill: new ol.style.Fill({color: [20, 20, 100]}),
 				stroke: new ol.style.Stroke({
 					color: [55, 55, 250], width: 1
 				})
 			})
-		})
+		});
 		// Setup & add Layer for markers
-		var layer = new ol.layer.Vector({
+		const layer = new ol.layer.Vector({
 			source: new ol.source.Vector({
 				features: features
 			}),
@@ -186,12 +186,12 @@ class PlaygroundMap {
 			link: document.getElementById('popup-link')
 		}
 
-		var container = document.getElementById('popup');
+		const container = document.getElementById('popup');
 
 		// Setup & add Overlay for Popup
 		this.overlay.setElement(container);
 
-		var self = this;
+		const self = this;
 		// Closing functionality for popup
 		this.popup.closer.onclick = function() {
 			self.overlay.setPosition(undefined);
@@ -202,4 +202,4 @@ class PlaygroundMap {
 
 }
 
-var pm = new PlaygroundMap();
+const pm = new PlaygroundMap();
