@@ -60,25 +60,9 @@ public class WebController {
 	    playground.getEquipments().remove(equipmentId.intValue());
 	    return "update-playground";
 	}
-	
-	@GetMapping("/playground/show/{id}")
-	public String showPlayground(@PathVariable("id") long id, Model model) {
-		Optional<Playground> playground = playgroundRepository.findById(id);
-		model.addAttribute("playground", playground.get());
-		return "playground";
-	}
-
-	@GetMapping("/playground/edit/{id}")
-	public String editPlayground(@PathVariable("id") long id, Model model) {
-		Playground playground = playgroundRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Invalid playground Id:" + id));
-		model.addAttribute("playground", playground);
-		return "update-playground";
-	}
 
 	@PostMapping("/playground/update/{id}")
-	public String updatePlayground(@PathVariable("id") long id, @Valid Playground playground, BindingResult result,
-			Model model) {
+	public String updatePlayground(@PathVariable("id") long id, @Valid Playground playground, BindingResult result) {
 		Playground playgroundExists = playgroundRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid playground Id:" + id));
 		if (result.hasErrors()) {
@@ -96,7 +80,22 @@ public class WebController {
 		playgroundRepository.delete(playground);
 	    return "redirect:/index";
 	}
-	
+
+	@GetMapping("/playground/show/{id}")
+	public String showPlayground(@PathVariable("id") long id, Model model) {
+		Optional<Playground> playground = playgroundRepository.findById(id);
+		model.addAttribute("playground", playground.get());
+		return "playground";
+	}
+
+	@GetMapping("/playground/edit/{id}")
+	public String editPlayground(@PathVariable("id") long id, Model model) {
+		Playground playground = playgroundRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid playground Id:" + id));
+		model.addAttribute("playground", playground);
+		return "update-playground";
+	}
+
 	@PostMapping("/playground/add")
 	public String addPlayground(@ModelAttribute("playground") @Valid Playground playground, BindingResult result,
 			RedirectAttributes attr) {
